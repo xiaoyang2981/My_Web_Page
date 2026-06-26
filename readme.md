@@ -1,4 +1,4 @@
-# 梦星的互联网世界
+# 我的开源个人主页
 
 个人主页项目，包含博客、社区、OC展示、友链等功能模块。
 
@@ -26,7 +26,7 @@
 │   ├── repositories.html   # 项目
 │   └── setup.html          # 初始化页面
 ├── icon/                   # SVG 图标
-├── img/                    # 图片（已 gitignore）
+├── img/                    # 图片
 ├── js/                     # JavaScript
 └── config.json             # 用户配置（首次安装后生成）
 ```
