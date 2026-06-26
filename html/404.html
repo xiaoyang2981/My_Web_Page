@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · 梦星的互联网世界</title>
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/404.css">
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题"><span class="theme-icon">🌙</span></div>
+<div class="container">
+  <div class="code">404</div>
+  <div class="msg">页面未找到 · 你可能走丢了</div>
+  <a href="/" class="btn">← 回到首页</a>
+</div>
+<script>
+function toggleTheme(){var e=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',e);document.querySelector('.theme-icon').textContent=e==='light'?'☀️':'🌙';try{localStorage.setItem('theme',e)}catch{}}
+try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-icon').textContent=t==='light'?'☀️':'🌙'}}catch{}
+</script>
+</body>
+</html>

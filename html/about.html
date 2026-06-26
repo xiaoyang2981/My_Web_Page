@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于 · 梦星的互联网世界</title>
+<meta name="description" content="关于 - 梦星的互联网世界">
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+<style>@media(min-width:768px){.sidebar.collapsed{width:var(--sidebar-w)!important}}</style>
+<link rel="stylesheet" href="../css/nav.css">
+<link rel="stylesheet" href="../css/foot.css">
+<link rel="stylesheet" href="../css/about.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题"><span class="theme-icon">🌙</span></div>
+<a href="login.html" class="login-btn" id="loginBtn" title="登录管理">🔑</a>
+<a href="admin.html" class="admin-link" id="adminLink" title="管理后台" style="display:none">📋</a>
+
+<aside class="sidebar collapsed" id="sidebar">
+  <div class="sidebar-header">
+    <button class="toggle-btn" onclick="toggleSidebar()"><span class="toggle-icon">☰</span></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="../index.html" class="nav-item"><span class="nav-icon">◆</span><span class="nav-label">首页</span></a>
+    <a href="404.html" class="nav-item"><span class="nav-icon">✎</span><span class="nav-label">博客</span><span class="nav-ext"></span></a>
+    <a href="404.html" class="nav-item"><span class="nav-icon">♢</span><span class="nav-label">社区</span><span class="nav-ext"></span></a>
+    <a href="oc.html" class="nav-item"><span class="nav-icon">♥</span><span class="nav-label">OC</span></a>
+    <a href="repositories.html" class="nav-item"><span class="nav-icon">⚙</span><span class="nav-label">项目</span></a>
+    <a href="friend.html" class="nav-item"><span class="nav-icon">✦</span><span class="nav-label">朋友</span></a>
+    <a href="furl.html" class="nav-item"><span class="nav-icon">◎</span><span class="nav-label">友链</span></a>
+    <div class="nav-spacer"></div>
+    <a href="about.html" class="nav-item active"><span class="nav-icon">?</span><span class="nav-label">关于</span></a>
+  </nav>
+</aside>
+
+<div class="main-wrap" id="mainWrap">
+  <div class="container">
+    <div class="content-grid" style="padding-top:16px">
+      <div class="about-wrap">
+          <div class="about-left">
+            <div class="about-avatar-wrap">
+              <img id="aboutAvatar" src="../img/head.png" alt="avatar">
+            </div>
+            <div class="about-name-wrap">
+              <div class="about-name-text" id="aboutName"></div>
+              <div class="about-name-sub" id="aboutSub"></div>
+            </div>
+            <div class="about-me-wrap">
+              <h2>关于我</h2>
+              <p id="aboutBio"></p>
+            </div>
+          </div>
+          <div class="about-right">
+            <div class="about-skills-wrap">
+              <h2>技能</h2>
+              <p id="aboutSkills"></p>
+            </div>
+            <div class="about-exp-wrap">
+              <h2>经历</h2>
+              <p id="aboutExp"></p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <footer class="footer fade-in">
+      <p>&copy; 2026 · Power By Dream_Star_qwq · WEBv0.1.0</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+fetch('../api/index.php?type=about').then(function(r){return r.json()}).then(function(d){
+  if(!d)return;
+  if(d.name)document.getElementById('aboutName').textContent=d.name;
+  if(d.avatar)document.getElementById('aboutAvatar').src=d.avatar;
+  if(d.sub)document.getElementById('aboutSub').textContent=d.sub;
+  if(d.bio)document.getElementById('aboutBio').textContent=d.bio;
+  if(d.skills)document.getElementById('aboutSkills').textContent=d.skills;
+  if(d.exp)document.getElementById('aboutExp').textContent=d.exp;
+}).catch(function(){});
+</script>
+<script src="../js/script.js"></script>
+</body>
+</html>
+
+
+
+
+
+

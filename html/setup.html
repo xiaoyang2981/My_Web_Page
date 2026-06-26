@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>初始化 · 管理后台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a0f;--bg2:#0e1117;--bg3:#141a26;--border:#1a2030;--text:#fff;--text2:#94a3b8;--blue:#5B89D2;--r:10px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px;width:360px;max-width:90vw;text-align:center}
+h2{font-size:18px;margin-bottom:6px}
+p{font-size:13px;color:var(--text2);margin-bottom:20px}
+input{width:100%;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;font-family:inherit;outline:none;text-align:center;margin-bottom:10px;transition:border-color .3s}
+input:focus{border-color:var(--blue)}
+.btn{display:block;width:100%;padding:10px;border-radius:var(--r);border:1px solid var(--blue);background:var(--blue);color:#fff;font-size:14px;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.8}
+.btn-s{background:transparent;border-color:var(--border);color:var(--text2);margin-top:10px;font-size:13px}
+.btn-s:hover{border-color:var(--border);color:var(--text)}
+.err{color:#ec4141;font-size:12px;margin-top:10px;display:none}
+.ok{color:#4ade80;font-size:13px;margin-top:10px;display:none}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🔧 初始化管理后台</h2>
+  <p>请设置管理员用户名和密码</p>
+  <input type="text" id="user" placeholder="用户名" autofocus>
+  <input type="password" id="pass" placeholder="密码">
+  <button class="btn" onclick="save()">保存</button>
+  <div class="err" id="err">保存失败</div>
+  <div class="ok" id="ok">✅ 设置成功，正在跳转...</div>
+  <button class="btn btn-s" onclick="location.href='login.html'">← 返回登录</button>
+</div>
+<script>
+fetch('../admin/setup.php?step=check').then(function(r){return r.json()}).then(function(d){
+  if(d&&!d.setup){document.querySelector('h2').textContent='已初始化';document.querySelector('p').textContent='管理后台已设置过';document.querySelector('.btn').style.display='none'}
+}).catch(function(){});
+function save(){
+  var u=document.getElementById('user').value,p=document.getElementById('pass').value;
+  if(!u||!p){document.getElementById('err').textContent='请填写完整';document.getElementById('err').style.display='block';return}
+  var x=new XMLHttpRequest;x.open('POST','../admin/setup.php?step=save');
+  x.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+  x.onload=function(){
+    if(x.status==200){document.getElementById('ok').style.display='block';setTimeout(function(){location.href='login.html'},1500)}
+    else{try{document.getElementById('err').textContent=JSON.parse(x.responseText).error}catch(e){}document.getElementById('err').style.display='block'}
+  };
+  x.onerror=function(){document.getElementById('err').style.display='block'};
+  x.send('user='+encodeURIComponent(u)+'&pass='+encodeURIComponent(p));
+}
+</script>
+</body>
+</html>

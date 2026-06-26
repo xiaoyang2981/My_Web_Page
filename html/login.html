@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · 管理后台</title>
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a0f;--bg2:#0e1117;--bg3:#141a26;--border:#1a2030;--text:#fff;--text2:#94a3b8;--text3:#64748b;--blue:#5B89D2;--red:#ec4141;--r:10px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:32px;width:340px;max-width:90vw;text-align:center}
+h2{font-size:18px;margin-bottom:20px}
+input{width:100%;padding:10px 14px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;font-family:inherit;outline:none;text-align:center;transition:border-color .3s}
+input:focus{border-color:var(--blue)}
+.btn{display:block;width:100%;padding:10px;border-radius:var(--r);border:1px solid var(--blue);background:var(--blue);color:#fff;font-size:14px;cursor:pointer;margin-top:12px;transition:opacity .2s}
+.btn:hover{opacity:.8}
+.btn-s{background:transparent;border-color:var(--border);color:var(--text2);margin-top:8px;font-size:13px}
+.btn-s:hover{border-color:var(--border);color:var(--text)}
+.err{color:var(--red);font-size:12px;margin-top:10px;display:none}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:9999;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);transition:all .3s}
+.theme-toggle:hover{color:var(--text);border-color:var(--border)}
+[data-theme="light"]{--bg:#f5f5f7;--bg2:#fff;--bg3:#f0f0f2;--border:#e5e5e7;--text:#1d1d1f;--text2:#6e6e73;--text3:#9a9a9e;--blue:#5B89D2;--red:#ec4141}
+</style>
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题"><span class="theme-icon">🌙</span></div>
+<div class="box">
+  <h2>🔐 管理后台</h2>
+  <input type="text" id="user" placeholder="用户名" autofocus style="margin-bottom:8px">
+  <input type="password" id="pwd" placeholder="密码">
+  <button class="btn" onclick="login()">登录</button>
+  <a id="setupLink" href="setup.html" style="display:none" class="btn btn-s">🔧 初始化管理后台</a>
+  <button class="btn btn-s" onclick="location.href='../index.html'">← 返回首页</button>
+  <div class="err" id="err">用户名或密码错误</div>
+</div>
+<script>
+function toggleTheme(){var e=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',e);document.querySelector('.theme-icon').textContent=e==='light'?'☀️':'🌙';try{localStorage.setItem('theme',e)}catch{}}
+try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-icon').textContent=t==='light'?'☀️':'🌙'}}catch{}
+function login(){
+  var u=document.getElementById('user').value,p=document.getElementById('pwd').value;
+  if(!u||!p)return;
+  var x=new XMLHttpRequest;
+  x.open('POST','../api/index.php?type=friends');
+  x.setRequestHeader('Content-Type','application/json');
+  x.onload=function(){
+    if(x.status===200){
+      sessionStorage.setItem('apwd',p);
+      sessionStorage.setItem('auser',u);
+      location.href='admin.html';
+    }else{document.getElementById('err').style.display='block'}
+  };
+  x.onerror=function(){document.getElementById('err').style.display='block'};
+  x.send(JSON.stringify({user:u,password:p}));
+}
+document.getElementById('pwd').addEventListener('keydown',function(e){if(e.key==='Enter')login()});
+fetch('../admin/setup.php?step=check').then(function(r){return r.json()}).then(function(d){if(d&&d.setup)document.getElementById('setupLink').style.display='block'}).catch(function(){});
+</script>
+</body>
+</html>

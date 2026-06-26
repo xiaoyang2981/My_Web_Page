@@ -1,0 +1,30 @@
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;min-height:calc(85vh - 80px);align-items:stretch}
+.about-left,.about-right{display:flex;flex-direction:column;gap:4px}
+.about-left{gap:0}
+.about-me-wrap{margin-top:4px}
+
+.about-avatar-wrap{flex:3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 24px 5px}
+.about-avatar-wrap img{width:250px;height:250px;border-radius:50%;object-fit:cover;display:block;border:4px solid var(--border-light);background:var(--bg-hover)}
+
+.about-name-wrap{flex:1;display:flex;flex-direction:column;justify-content:center;padding:10px 16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.about-name-text{font-size:14px;font-weight:600;line-height:1.4}
+.about-name-sub{font-size:12px;color:var(--text-muted);margin-top:2px;line-height:1.4}
+
+.about-me-wrap{flex:5;display:flex;flex-direction:column;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg)}
+.about-me-wrap h2{font-size:15px;font-weight:600;margin-bottom:8px;color:var(--text-primary);padding-bottom:8px;border-bottom:1px solid var(--border)}
+.about-me-wrap p,.about-skills-wrap p,.about-exp-wrap p{font-size:13px;color:var(--text-secondary);line-height:1.7;white-space:pre-wrap}
+
+.about-skills-wrap{flex:4.5;display:flex;flex-direction:column;padding:16px;margin-top:50px;border:1px solid var(--border);border-radius:var(--radius-lg)}
+.about-skills-wrap h2{font-size:15px;font-weight:600;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.about-skills-wrap p,.about-exp-wrap p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+
+.about-exp-wrap{flex:4.5;display:flex;flex-direction:column;padding:16px;border:1px solid var(--border);border-radius:var(--radius-lg)}
+.about-exp-wrap h2{font-size:15px;font-weight:600;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+@media(max-width:768px){
+  .about-wrap{grid-template-columns:1fr;gap:4px}
+  .about-left,.about-right{gap:4px}
+  .about-left{gap:0}
+  .about-me-wrap{margin-top:4px}
+  .about-skills-wrap{margin-top:0}
+}

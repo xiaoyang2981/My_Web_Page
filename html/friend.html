@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>朋友 · 梦星的互联网世界</title>
+<meta name="description" content="朋友 - 梦星的互联网世界">
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+<style>@media(min-width:768px){.sidebar.collapsed{width:var(--sidebar-w)!important}}</style>
+<link rel="stylesheet" href="../css/nav.css">
+<link rel="stylesheet" href="../css/foot.css">
+<link rel="stylesheet" href="../css/friend.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题"><span class="theme-icon">🌙</span></div>
+<a href="login.html" class="login-btn" id="loginBtn" title="登录管理">🔑</a>
+<a href="admin.html" class="admin-link" id="adminLink" title="管理后台" style="display:none">📋</a>
+
+<aside class="sidebar collapsed" id="sidebar">
+  <div class="sidebar-header">
+    <button class="toggle-btn" onclick="toggleSidebar()"><span class="toggle-icon">☰</span></button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="../index.html" class="nav-item"><span class="nav-icon">◆</span><span class="nav-label">首页</span></a>
+    <a href="404.html" class="nav-item"><span class="nav-icon">✎</span><span class="nav-label">博客</span><span class="nav-ext"></span></a>
+    <a href="404.html" class="nav-item"><span class="nav-icon">♢</span><span class="nav-label">社区</span><span class="nav-ext"></span></a>
+    <a href="oc.html" class="nav-item"><span class="nav-icon">♥</span><span class="nav-label">OC</span></a>
+    <a href="repositories.html" class="nav-item"><span class="nav-icon">⚙</span><span class="nav-label">项目</span></a>
+    <a href="friend.html" class="nav-item active"><span class="nav-icon">✦</span><span class="nav-label">朋友</span></a>
+    <a href="furl.html" class="nav-item"><span class="nav-icon">◎</span><span class="nav-label">友链</span></a>
+    <div class="nav-spacer"></div>
+    <a href="about.html" class="nav-item"><span class="nav-icon">?</span><span class="nav-label">关于</span></a>
+  </nav>
+</aside>
+
+<div class="main-wrap" id="mainWrap">
+  <div class="container">
+    <div class="content-grid">
+      <div class="col-left">
+        <section class="hero-section fade-in" style="padding:12px 0 4px">
+          <h1 class="hero-title" style="font-size:clamp(20px,2.5vw,28px);margin-bottom:6px">朋友</h1>
+          <p class="hero-desc" style="max-width:none;font-size:13px">我的好朋友们</p>
+        </section>
+
+        <div id="friendList" class="fade-in" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+
+        <script>
+        (function(){var e=document.getElementById('friendList');if(!e)return;var x=new XMLHttpRequest;x.open('GET','../api/index.php?type=friends');x.onload=function(){if(x.status!==200)return;var d=JSON.parse(x.responseText);d.forEach(function(r){var a=document.createElement(r.u?'a':'div');if(r.u){a.href=r.u;a.target='_blank';a.rel='noopener'}a.style.cssText='display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg-card);transition:all var(--transition);text-decoration:none';a.className='friend-card';a.innerHTML='<div style="width:40px;height:40px;min-width:40px;border-radius:50%;background:var(--bg-hover);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-muted);flex-shrink:0;overflow:hidden">'+(r.a?'<img src="'+r.a+'" style="width:100%;height:100%;object-fit:cover">':(r.n?r.n.charAt(0):'?'))+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;color:var(--text-primary)">'+r.n+'</div><div style="font-size:11px;color:var(--text-muted);margin-top:1px;white-space:pre-wrap">'+(r.d||'')+'</div></div>';a.addEventListener('mouseenter',function(){this.style.borderColor='var(--border-light)';this.style.background='var(--bg-hover)'});a.addEventListener('mouseleave',function(){this.style.borderColor='var(--border)';this.style.background='var(--bg-card)'});e.appendChild(a)})};x.send()})();
+        </script>
+      </div>
+    </div>
+    <footer class="footer fade-in">
+      <p>&copy; 2026 · Power By Dream_Star_qwq · WEBv0.1.0</p>
+    </footer>
+  </div>
+</div>
+
+<script src="../js/script.js"></script>
+</body>
+</html>
+
+
+
+

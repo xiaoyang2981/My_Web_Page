@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理 · 梦星的互联网世界</title>
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080a0f;--bg2:#0e1117;--bg3:#141a26;--border:#1a2030;--border2:#2a3346;--text:#fff;--text2:#94a3b8;--text3:#64748b;--blue:#5B89D2;--red:#ec4141;--green:#4ade80;--r:10px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+.w{max-width:960px;margin:0 auto;padding:24px 20px}
+h1{font-size:22px;font-weight:600;margin-bottom:24px}
+h2{font-size:15px;font-weight:500;margin-bottom:12px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px}
+.tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-size:13px;transition:all .2s}
+.tab:hover,.tab.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.pn{display:none}.pn.on{display:block}
+.it{display:flex;align-items:center;gap:12px;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px}
+.it:hover{border-color:var(--border2);background:var(--bg3)}
+.it-info{flex:1;min-width:0}
+.it-t{font-size:13px;font-weight:500}
+.it-d{font-size:11px;color:var(--text3);margin-top:1px}
+.it-act{display:flex;gap:6px;flex-shrink:0}
+.btn{padding:5px 12px;border-radius:var(--r);border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-size:11px;transition:all .2s}
+.btn:hover{border-color:var(--border2);color:var(--text)}
+.btn-r{border-color:var(--red);color:var(--red)}
+.btn-r:hover{background:var(--red);color:#fff}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:9999;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);transition:all .3s}
+.theme-toggle:hover{color:var(--text);border-color:var(--border)}
+[data-theme="light"]{--bg:#f5f5f7;--bg2:#fff;--bg3:#f0f0f2;--border:#e5e5e7;--text:#1d1d1f;--text2:#6e6e73;--text3:#9a9a9e;--blue:#5B89D2;--red:#ec4141}
+.btn-b{border-color:var(--blue);color:var(--blue)}
+.btn-b:hover{background:var(--blue);color:#fff}
+.btn-g{border-color:var(--green);color:var(--green)}
+.btn-g:hover{background:var(--green);color:#000}
+.em{text-align:center;padding:32px;color:var(--text3);font-size:13px}
+input,textarea{padding:8px 12px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;outline:none;width:100%;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--blue)}
+textarea{resize:vertical;min-height:50px}
+form{display:flex;flex-direction:column;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.gr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ol{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:999}
+.ob{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;width:460px;max-width:90vw;max-height:90vh;overflow-y:auto}
+#tt{position:fixed;bottom:24px;right:24px;padding:8px 18px;border-radius:var(--r);font-size:13px;z-index:999;display:none}
+#tt.g{background:var(--green);color:#000;display:block}
+#tt.b{background:var(--red);color:#fff;display:block}
+</style>
+</head>
+<body>
+
+<div id="tt"></div>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题"><span class="theme-icon">🌙</span></div>
+
+<div class="w" id="app">
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+  <h1>📋 管理</h1>
+  <button class="btn btn-r" onclick="doLogout()">退出登录</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="panels"></div>
+
+</div>
+
+<script>
+const API = '../api/index.php';
+const TYPES = ['homepage','friends','furls','oc','projects','about','settings','account'];
+const LABELS = {friends:'👥 朋友',furls:'🔗 友链',oc:'🎨 OC',projects:'⚙ 项目',about:'📝 关于我',homepage:'🏠 主页',settings:'⚙ 其他设置',account:'🔐 账号'};
+const FIELDS = {
+  friends:[{k:'n',l:'昵称'},{k:'d',l:'简介',t:'ta'},{k:'u',l:'链接'},{k:'a',l:'头像URL'}],
+  furls:[{k:'n',l:'站点名'},{k:'u',l:'链接'},{k:'d',l:'描述'},{k:'a',l:'图标URL'}],
+  oc:[{k:'n',l:'名称'},{k:'d',l:'描述',t:'ta'},{k:'a',l:'图片URL'}],
+  projects:[{k:'n',l:'项目名'},{k:'d',l:'描述',t:'ta'},{k:'u',l:'链接'},{k:'a',l:'图标URL'}],
+  about:[{k:'avatar',l:'头像',t:'file'},{k:'name',l:'名字'},{k:'sub',l:'副标题'},{k:'bio',l:'关于我',t:'ta'},{k:'skills',l:'技能',t:'ta'},{k:'exp',l:'经历',t:'ta'}],
+  homepage:[{k:'avatar',l:'头像',t:'file2'},{k:'name',l:'名字'},{k:'bio',l:'个人简介'},{k:'status',l:'状态文本'},{k:'hero',l:'Hero 标题'},{k:'heroSub',l:'Hero 副标题'},{k:'qq',l:'QQ 链接'},{k:'bilibili',l:'Bilibili 链接'},{k:'douyin',l:'抖音 链接'},{k:'kuaishou',l:'快手 链接'},{k:'xiaohongshu',l:'小红书 链接'},{k:'weibo',l:'微博 链接'},{k:'aifadian',l:'爱发电 链接'},{k:'youtube',l:'YouTube 链接'},{k:'x',l:'X 链接'},{k:'telegram',l:'Telegram 链接'},{k:'ins',l:'Instagram 链接'},{k:'facebook',l:'Facebook 链接'},{k:'tiktok',l:'TikTok 链接'},{k:'whatsapp',l:'WhatsApp 链接'},{k:'discord',l:'Discord 链接'},{k:'reddit',l:'Reddit 链接'},{k:'twitch',l:'Twitch 链接'},{k:'linkedin',l:'LinkedIn 链接'},{k:'fursuit',l:'Fursuit 链接'},{k:'steam',l:'Steam 链接'},{k:'github',l:'GitHub 链接'},{k:'email',l:'邮箱地址'}],
+  settings:[{k:'favicon',l:'Favicon 链接'},{k:'hideSocial',l:'隐藏社交图标',t:'bool'},{k:'hideDynamic',l:'隐藏动态模块',t:'bool'},{k:'hideBlog',l:'隐藏博客页',t:'bool'},{k:'hideCommunity',l:'隐藏社区页',t:'bool'},{k:'hideFriend',l:'隐藏朋友页',t:'bool'},{k:'hideFurl',l:'隐藏友链页',t:'bool'},{k:'hideOc',l:'隐藏 OC 页',t:'bool'},{k:'hideRepositories',l:'隐藏项目页',t:'bool'},{k:'hideAbout',l:'隐藏关于页',t:'bool'}],
+  account:[{k:'user',l:'用户名'},{k:'pass',l:'密码',t:'pwd'}]
+};
+let CUR = 'friends', PWD = sessionStorage.getItem('apwd') || '';
+function toggleTheme(){var e=document.documentElement.getAttribute('data-theme')==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',e);document.querySelector('.theme-icon').textContent=e==='light'?'☀️':'🌙';try{localStorage.setItem('theme',e)}catch{}}
+try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-icon').textContent=t==='light'?'☀️':'🌙'}}catch{}
+if(!PWD) location.href = 'login.html';
+
+function doLogout(){
+  PWD = '';
+  sessionStorage.removeItem('apwd');
+  location.href = 'login.html';
+}
+init();
+
+function init(){
+  var tb=document.getElementById('tabs'),pn=document.getElementById('panels'),saved=sessionStorage.getItem('admintab')||TYPES[0];
+  TYPES.forEach(function(t){
+    var a=document.createElement('div');a.className='tab'+(t==saved?' on':'');a.dataset.t=t;a.textContent=LABELS[t];a.onclick=function(){sw(t)};tb.appendChild(a);
+    var b=document.createElement('div');b.id='p-'+t;b.className='pn'+(t==saved?' on':'');pn.appendChild(b);
+    rd(t);
+  });
+}
+
+function ms(m){var e=document.getElementById('tt');e.textContent=m;e.className=m.includes('成功')?'g':'b';setTimeout(function(){e.className=''},2000)}
+
+function ld(t,cb){var x=new XMLHttpRequest;x.open('GET',API+'?type='+t);x.onload=function(){if(x.status==200)cb(JSON.parse(x.responseText))};x.send()}
+
+function sv(t,d){var p=sessionStorage.getItem('apwd')||'';var x=new XMLHttpRequest;x.open('POST',API+'?type='+t);x.setRequestHeader('Content-Type','application/json');x.onload=function(){if(x.status==200){ms('保存成功');rd(t)}else if(x.status==403){sessionStorage.removeItem('apwd');location.href='login.html'}else{ms('保存失败')}};x.send(JSON.stringify({password:p,data:d}))}
+
+function rd(t){ld(t,function(d){rn(t,d)})}
+
+function rn(t,d){
+  var el=document.getElementById('p-'+t);if(!el)return;
+  if(t==='about'||t==='homepage'||t==='settings'||t==='account'){
+    var o=d||{},px=t==='about'?'a':t==='account'?'c':'h';
+    var h='<div class="card"><h2>'+LABELS[t]+'</h2>';
+    FIELDS[t].forEach(function(f){
+      var id=px+'-'+f.k;
+      if(f.t==='file'||f.t==='file2'){
+        h+='<div style="margin-bottom:12px"><label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--text2)">'+f.l+'</label><div style="display:flex;align-items:center;gap:12px"><img id="'+id+'-preview" src="'+(o[f.k]||'')+'" style="width:50px;height:50px;border-radius:50%;object-fit:cover;background:var(--bg3);flex-shrink:0"><input type="file" id="'+id+'" accept=".png,.jpg,.jpeg" style="flex:1;padding:6px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px"><input type="hidden" id="'+id+'-val" value="'+(o[f.k]||'')+'"></div></div>';
+      } else if(f.t==='bool'){
+        var checked=(o[f.k]===true||o[f.k]==='true')?' checked':'';
+        h+='<div style="margin-bottom:12px"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2)"><input type="checkbox" id="'+id+'"'+checked+' style="width:16px;height:16px;accent-color:var(--blue)"> '+f.l+'</label></div>';
+      } else if(f.t==='pwd'){
+        h+='<div style="margin-bottom:12px"><label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--text2)">'+f.l+'</label><input type="password" id="'+id+'" style="width:100%;padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;outline:none" value="'+((o[f.k]||''))+'"></div>';
+      } else if(f.t==='ta'){
+        h+='<div style="margin-bottom:12px"><label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--text2)">'+f.l+'</label><textarea id="'+id+'" style="width:100%;min-height:80px;padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;outline:none;resize:vertical">'+((o[f.k]||''))+'</textarea></div>';
+      } else {
+        h+='<div style="margin-bottom:12px"><label style="display:block;font-size:13px;font-weight:500;margin-bottom:4px;color:var(--text2)">'+f.l+'</label><input id="'+id+'" style="width:100%;padding:8px 10px;border-radius:var(--r);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-family:inherit;outline:none" value="'+((o[f.k]||''))+'"></div>';
+      }
+    });
+    h+='<div style="text-align:right"><button class="btn btn-b" onclick="svSingle(\''+t+'\')">保存</button></div></div>';
+    el.innerHTML=h;
+    return;
+  }
+  var h='<div class="card"><h2>'+LABELS[t]+'</h2><div id="l-'+t+'">';
+  if(!d||!d.length)h+='<div class="em">暂无数据</div>';
+  else d.forEach(function(o,i){
+    h+='<div class="it"><div class="it-info"><div class="it-t">'+(o.n||'未命名')+'</div><div class="it-d">'+((o.d||'').substring(0,40))+'</div></div><div class="it-act"><button class="btn" onclick="mv(\''+t+'\','+i+','+(i-1)+')"'+(i===0?' disabled style="opacity:0.3"':'')+'>↑</button><button class="btn" onclick="mv(\''+t+'\','+i+','+(i+1)+')"'+(i===d.length-1?' disabled style="opacity:0.3"':'')+'>↓</button><button class="btn btn-b" onclick="ed(\''+t+'\','+i+')">编辑</button><button class="btn btn-r" onclick="del(\''+t+'\','+i+')">删除</button></div></div>';
+  });
+  h+='</div><button class="btn btn-g" onclick="add(\''+t+'\')" style="margin-top:6px">+ 添加</button></div>';
+  el.innerHTML=h;
+}
+
+function svSingle(t){
+  var d={},prefix=t==='about'?'a':t==='account'?'c':'h';
+  var file=document.getElementById(prefix+'-avatar'),avatarVal=document.getElementById(prefix+'-avatar-val');
+  var doSave=function(){
+    FIELDS[t].forEach(function(f){
+      var el=document.getElementById(prefix+'-'+f.k);
+      if(f.t==='file'||f.t==='file2'){d[f.k]=avatarVal.value}
+      else if(f.t==='bool'){d[f.k]=el?el.checked:false}
+      else{d[f.k]=el?el.value:''}
+    });
+    var p=sessionStorage.getItem('apwd')||'';
+    var url=t==='account'?'../api/saveconfig.php':'../api/index.php?type='+t;
+    var x=new XMLHttpRequest;x.open('POST',url);x.setRequestHeader('Content-Type','application/json');
+    x.onload=function(){
+      if(x.status==200){ms('保存成功');if(t==='account'){sessionStorage.setItem('apwd',d.pass||p)}rd(t)}
+      else if(x.status==403){sessionStorage.removeItem('apwd');location.href='login.html'}
+      else{ms('保存失败')}
+    };
+    x.send(JSON.stringify(t==='account'?{password:p,user:d.user,pass:d.pass}:{password:p,data:d}));
+  };
+  if(file&&file.files&&file.files[0]){
+    var fn=(t==='homepage'?'home':'about')+'.'+file.files[0].name.split('.').pop();
+    var fd=new FormData();fd.append('file',file.files[0],fn);
+    var u=new XMLHttpRequest;u.open('POST','../api/upload.php');
+    u.onload=function(){if(u.status==200){var r=JSON.parse(u.responseText);if(r.url)avatarVal.value=r.url;doSave()}else{var r=JSON.parse(u.responseText);ms(r.error||'上传失败:'+u.status);doSave()}};
+    u.onerror=function(){doSave()};
+    u.send(fd);
+  }else{doSave()}
+}
+function mv(ty,fr,to){var len=document.querySelectorAll('#l-'+ty+' .it').length;if(to<0||to>=len)return;ld(ty,function(d){var e=d.splice(fr,1)[0];d.splice(to,0,e);sv(ty,d)})}
+function add(t){ld(t,function(d){fm(t,null,d)})}
+function ed(t,i){ld(t,function(d){fm(t,d[i],d,i)})}
+function del(t,i){if(!confirm('确定删除？'))return;ld(t,function(d){d.splice(i,1);sv(t,d)})}
+
+function fm(t,o,ad,i){
+  var ol=document.createElement('div');ol.className='ol';
+  var ob=document.createElement('div');ob.className='ob';
+  var f=FIELDS[t];
+  var h='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><b>'+(i===undefined?'添加':'编辑')+'</b><button onclick="this.parentElement.parentElement.parentElement.remove()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:18px">✕</button></div><form onsubmit="return false">';
+  f.forEach(function(fi){
+    var v=o&&o[fi.k]?o[fi.k]:'';
+    if(fi.t=='ta')h+='<textarea placeholder="'+fi.l+'" name="'+fi.k+'">'+v+'</textarea>';
+    else h+='<input placeholder="'+fi.l+'" name="'+fi.k+'" value="'+v+'">';
+  });
+  h+='<div class="gr"><button class="btn btn-b" onclick="sf(this,\''+t+'\','+(i===undefined?'-1':i)+')">保存</button><button class="btn" onclick="this.closest(\'form\').closest(\'div\').parentElement.remove()">取消</button></div></form>';
+  ob.innerHTML=h;ol.appendChild(ob);document.body.appendChild(ol);
+  ol.querySelector('form').onsubmit=function(e){e.preventDefault()};
+}
+
+function sf(btn,t,i){
+  var f=btn.closest('form'),fd=new FormData(f),obj={};
+  FIELDS[t].forEach(function(fi){obj[fi.k]=fd.get(fi.k)||''});
+  ld(t,function(d){
+    if(i==-1)d.push(obj);else d[i]=obj;
+    sv(t,d);btn.closest('.ol').remove()
+  })
+}
+
+function sw(t){
+  CUR=t;sessionStorage.setItem('admintab',t);
+  document.querySelectorAll('.tab').forEach(function(e){e.className='tab'+(e.dataset.t==t?' on':'')});
+  document.querySelectorAll('.pn').forEach(function(e){e.className='pn'+(e.id=='p-'+t?' on':'')});
+}
+
+</script>
+</body>
+</html>

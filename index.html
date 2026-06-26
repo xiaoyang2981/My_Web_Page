@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>梦星的互联网世界</title>
+<meta name="description" content="梦星的互联网世界 - 个人主页">
+<link rel="icon" type="image/x-icon" href="https://explorer.bixygames.com/ico/13.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<style>@media(min-width:768px){.sidebar.collapsed{width:var(--sidebar-w)!important}}</style>
+<link rel="stylesheet" href="css/nav.css">
+<link rel="stylesheet" href="css/foot.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<div class="theme-toggle" onclick="toggleTheme()" title="切换主题">
+  <span class="theme-icon">🌙</span>
+</div>
+<a href="html/login.html" class="login-btn" id="loginBtn" title="登录管理">🔑</a>
+<a href="html/admin.html" class="admin-link" id="adminLink" title="管理后台" style="display:none">📋</a>
+
+<aside class="sidebar collapsed" id="sidebar">
+  <div class="sidebar-header">
+    <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">
+      <span class="toggle-icon">☰</span>
+    </button>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active"><span class="nav-icon">◆</span><span class="nav-label">首页</span></a>
+    <a href="html/404.html" class="nav-item"><span class="nav-icon">✎</span><span class="nav-label">博客</span><span class="nav-ext">↗</span></a>
+    <a href="html/404.html" class="nav-item"><span class="nav-icon">♢</span><span class="nav-label">社区</span><span class="nav-ext">↗</span></a>
+    <a href="html/oc.html" class="nav-item"><span class="nav-icon">♥</span><span class="nav-label">OC</span></a>
+    <a href="html/repositories.html" class="nav-item"><span class="nav-icon">⚙</span><span class="nav-label">项目</span></a>
+    <a href="html/friend.html" class="nav-item"><span class="nav-icon">✦</span><span class="nav-label">朋友</span></a>
+    <a href="html/furl.html" class="nav-item"><span class="nav-icon">◎</span><span class="nav-label">友链</span></a>
+    <div class="nav-spacer"></div>
+    <a href="html/about.html" class="nav-item"><span class="nav-icon">?</span><span class="nav-label">关于</span></a>
+  </nav>
+</aside>
+
+<div class="main-wrap" id="mainWrap">
+  <div class="container">
+    <div class="content-grid">
+
+      <div class="col-left">
+        <section class="hero-section fade-in">
+          <h1 class="hero-title"><span class="typewriter" id="typewriter"></span><span class="blink-cursor-type"></span></h1>
+          <p class="hero-desc" style="max-width:none"></p>
+        </section>
+
+        <div class="profile-mini fade-in">
+          <div class="profile-mini-avatar"><img src="img/head.png" alt="avatar"></div>
+          <div class="profile-mini-info">
+            <div class="profile-mini-name"></div>
+            <div class="profile-mini-bio"></div>
+          </div>
+          <div class="profile-mini-status"><span class="status-dot"></span></div>
+        </div>
+        <div class="social-row">
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="QQ"><i class="fab fa-qq"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Bilibili"><i class="fab fa-bilibili"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="抖音"><i class="fab fa-tiktok"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="快手"><img src="icon/ks.svg" style="width:18px;height:18px"></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="小红书"><img src="icon/xhs.svg" style="width:18px;height:18px"></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="微博"><i class="fab fa-weibo"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="爱发电"><img src="icon/ifdian.svg" style="width:18px;height:18px"></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="X"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="TikTok"><i class="fab fa-tiktok"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Discord"><i class="fab fa-discord"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Reddit"><i class="fab fa-reddit"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Twitch"><i class="fab fa-twitch"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Fursuit"><i class="fas fa-paw"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Steam"><i class="fab fa-steam"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
+          <a href="#" target="_blank" rel="noopener" class="social-icon" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <section class="fade-in">
+          <div class="section-title">快速入口</div>
+          <div class="card-grid">
+            <a href="html/404.html" class="card blue"><div class="card-icon blue">✎</div><div class="card-title">博客</div><div class="card-desc">技术文章与生活随笔</div><span class="card-arrow">→</span></a>
+            <a href="html/404.html" class="card green"><div class="card-icon green">♢</div><div class="card-title">社区</div><div class="card-desc">交流讨论与知识分享</div><span class="card-arrow">→</span></a>
+            <a href="html/oc.html" class="card red"><div class="card-icon red">♥</div><div class="card-title">OC</div><div class="card-desc">原创角色展示</div><span class="card-arrow">→</span></a>
+            <a href="html/repositories.html" class="card orange"><div class="card-icon orange">⚙</div><div class="card-title">项目</div><div class="card-desc">开源作品与实验</div><span class="card-arrow">→</span></a>
+            <a href="html/friend.html" class="card rose"><div class="card-icon rose">✦</div><div class="card-title">朋友</div><div class="card-desc">友链与伙伴</div><span class="card-arrow">→</span></a>
+            <a href="html/furl.html" class="card blue"><div class="card-icon blue">◎</div><div class="card-title">友情链接</div><div class="card-desc">值得访问的站点</div><span class="card-arrow">→</span></a>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-bottom">
+        <section class="fade-in">
+          <div class="section-title">动态</div>
+          <div class="profile-mini" style="padding:14px 20px">
+            <div class="marquee-track">
+              <span class="marquee-item"><span class="sep">✦</span> 欢迎来到我的个人主页</span>
+              <span class="marquee-item"><span class="sep">✦</span> 持续学习与成长</span>
+              <span class="marquee-item"><span class="sep">✦</span> 正在构建更有趣的东西</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+    <footer class="footer fade-in">
+      <p>&copy; 2026 · Power By Dream_Star_qwq · WEBv0.1.0</p>
+    </footer>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
+
+
