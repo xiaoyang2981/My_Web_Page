@@ -50,6 +50,4 @@ php -S 0.0.0.0:8080
 
 所有数据以 JSON 文件形式存储在 `data/` 目录下，无需数据库。
 
-## 开源协议
-
-GNU General Public License v3.0
+## 本仓库使用GPL v3协议开源
