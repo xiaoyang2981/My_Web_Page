@@ -52,4 +52,4 @@ php -S 0.0.0.0:8080
 
 ## 开源协议
 
-MIT
+GNU General Public License v3.0
